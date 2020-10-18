@@ -298,13 +298,13 @@ class OutboundMessageFragments {
                             continue;
                         }
                         peersProcessed++;
-                        states = p.allocateSend();
+                        states = p.allocateSend(now);
                         if (states != null) {
                             peer = p;
                             // we have something to send and we will be returning it
                             break;
                         } 
-                        int delay = p.getNextDelay();
+                        int delay = p.getNextDelay(now);
                         if (delay < nextSendDelay)
                             nextSendDelay = delay;
                         
@@ -369,6 +369,16 @@ class OutboundMessageFragments {
        ****/
 
         return packets;
+    }
+
+    /**
+     * Wakes up the packet pusher thread.
+     * @since 0.9.48
+     */
+    void nudge() {
+        synchronized(_activePeers) {
+            _activePeers.notify();
+        }
     }
 
     /**
