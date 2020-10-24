@@ -35,6 +35,10 @@ public class PeerProfile {
     private final RouterContext _context;
     // whoozaat?
     private final Hash _peer;
+
+    // mc predictor
+    private final MCProfile _mcProfile = new MCProfile(3,100); // TODO: make configurable
+
     // general peer stats
     private long _firstHeardAbout;
     private long _lastHeardAbout;
@@ -649,6 +653,17 @@ public class PeerProfile {
      */
     RouterContext getContext() {
         return _context;
+    }
+
+    public PeerAttempt predictState() {
+        PeerAttempt rv = _mcProfile.predict();
+        _log.debug(_peer + " predicting " + rv);
+        return rv;
+    }
+
+    public void recordState(PeerAttempt state) {
+        _log.debug(_peer + " recording " + state);
+        _mcProfile.observe(state);
     }
 
     @Override
