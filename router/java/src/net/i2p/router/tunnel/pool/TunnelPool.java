@@ -21,6 +21,7 @@ import net.i2p.router.TunnelInfo;
 import net.i2p.router.TunnelPoolSettings;
 import net.i2p.router.tunnel.HopConfig;
 import net.i2p.router.tunnel.TunnelCreatorConfig;
+import net.i2p.router.peermanager.PeerProfile;
 import net.i2p.stat.Rate;
 import net.i2p.stat.RateAverages;
 import net.i2p.stat.RateStat;
@@ -1127,6 +1128,13 @@ public class TunnelPool {
             if (peers == null) {
                 setLengthOverride();
                 peers = _peerSelector.selectPeers(settings);
+            }
+
+
+            for (Hash h : peers) {
+                PeerProfile profile = _context.profileOrganizer().getProfile(h);
+                if (profile != null)
+                    profile.predictState();
             }
 
             if ( (peers == null) || (peers.isEmpty()) ) {
