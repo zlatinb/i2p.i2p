@@ -16,6 +16,7 @@ import net.i2p.router.CommSystemFacade;
 import net.i2p.router.CommSystemFacade.Status;
 import net.i2p.router.RouterContext;
 import net.i2p.router.TunnelManagerFacade;
+import net.i2p.router.peermanager.PeerAttempt;
 import net.i2p.stat.Rate;
 import net.i2p.stat.RateStat;
 import net.i2p.stat.StatManager;
@@ -602,6 +603,7 @@ class BuildExecutor implements Runnable {
     private void didNotReply(long tunnel, Hash peer) {
         if (_log.shouldLog(Log.INFO))
             _log.info(tunnel + ": Peer " + peer.toBase64() + " did not reply to the tunnel join request");
+        _context.profileManager().getProfile(peer).recordState(PeerAttempt.FAILED);
     }
     
     /**

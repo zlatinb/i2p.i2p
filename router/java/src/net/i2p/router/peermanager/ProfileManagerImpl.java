@@ -350,7 +350,7 @@ public class ProfileManagerImpl implements ProfileManager {
      *   Creates a new profile if it didn't exist.
      *   @return non-null
      */
-    private PeerProfile getProfile(Hash peer) {
+    public PeerProfile getProfile(Hash peer) {
         PeerProfile prof = _context.profileOrganizer().getProfile(peer);
         if (prof == null) {
             prof = new PeerProfile(_context, peer);

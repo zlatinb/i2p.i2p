@@ -29,6 +29,8 @@ import net.i2p.router.JobImpl;
 import net.i2p.router.OutNetMessage;
 import net.i2p.router.RouterContext;
 import net.i2p.router.peermanager.TunnelHistory;
+import net.i2p.router.peermanager.PeerProfile;
+import net.i2p.router.peermanager.PeerAttempt;
 import net.i2p.router.tunnel.BuildMessageProcessor;
 import net.i2p.router.tunnel.BuildReplyHandler;
 import net.i2p.router.tunnel.HopConfig;
@@ -339,9 +341,12 @@ class BuildHandler implements Runnable {
                     if (ri != null) bwTier = ri.getBandwidthTier(); // Returns "Unknown" if none recognized
                         else if (_log.shouldLog(Log.WARN)) _log.warn("Failed detecting bwTier, null routerInfo for: " + peer);
                     // Record that a peer of the given tier agreed or rejected
+                    PeerProfile profile = _context.profileManager().getProfile(peer);
                     if (howBad == 0) {
+                        profile.recordState(PeerAttempt.SUCCESS);
                         _context.statManager().addRateData("tunnel.tierAgree" + bwTier, 1);
                     } else {
+                        profile.recordState(PeerAttempt.REJECT);
                         _context.statManager().addRateData("tunnel.tierReject" + bwTier, 1);
                     }
                     if (_log.shouldLog(Log.INFO))

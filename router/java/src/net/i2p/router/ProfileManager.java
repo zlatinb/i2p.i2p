@@ -9,6 +9,7 @@ package net.i2p.router;
  */
 
 import net.i2p.data.Hash;
+import net.i2p.router.peermanager.PeerProfile;
 
 public interface ProfileManager {    
     /**
@@ -154,7 +155,12 @@ public interface ProfileManager {
      */
     void heardAbout(Hash peer);
     void heardAbout(Hash peer, long when);
-    
+
+
+    /**
+     * @return the profile for the peer
+     */
+    PeerProfile getProfile(Hash peer);    
     /**
      * Note that the router received a message from the given peer on the specified
      * transport.  Messages received without any "from" information aren't recorded
