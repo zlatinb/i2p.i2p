@@ -1128,7 +1128,8 @@ public class TunnelPool {
             if (peers == null) {
                 setLengthOverride();
                 peers = _peerSelector.selectPeers(settings);
-            } else {
+            } 
+            if (peers != null) {
                 for (Hash h : peers) {
                     PeerProfile profile = _context.profileOrganizer().getProfile(h);
                     if (profile != null)
