@@ -1128,13 +1128,12 @@ public class TunnelPool {
             if (peers == null) {
                 setLengthOverride();
                 peers = _peerSelector.selectPeers(settings);
-            }
-
-
-            for (Hash h : peers) {
-                PeerProfile profile = _context.profileOrganizer().getProfile(h);
-                if (profile != null)
-                    profile.predictState();
+            } else {
+                for (Hash h : peers) {
+                    PeerProfile profile = _context.profileOrganizer().getProfile(h);
+                    if (profile != null)
+                        profile.predictState();
+                }
             }
 
             if ( (peers == null) || (peers.isEmpty()) ) {
