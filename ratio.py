@@ -43,8 +43,9 @@ class Prediction :
       for result in self.results :
           if result :
               successful += 1
-      successful = successful * 1.0 / len(self.results)
-      return "%s : %s out of %d  S:%d R:%d F:%d" % (self.router, successful, len(self.results), self.S, self.R, self.F) 
+      successful = successful * 100.0 / len(self.results)
+      return "%s : %.2f%% out of %d  S:%d R:%d F:%d" % \
+        (self.router, successful, len(self.results), self.S, self.R, self.F) 
 
 predictRE = re.compile(".*?Hash: (.*?) predicting (.*)$")
 recordRE = re.compile(".*?Hash: (.*?) recording (.*)$")
@@ -85,4 +86,4 @@ for _,v in predictions.items() :
       if prediction :
          totalGood += 1
 
-print("total %d/%d" % (totalGood, totalPredictions))
+print("total %d/%d (%.2f%%)" % (totalGood, totalPredictions, totalGood * 100.0 / totalPredictions))
