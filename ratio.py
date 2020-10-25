@@ -68,7 +68,7 @@ for line in open(sys.argv[1]) :
    if match is not None :
       routerHash = match.groups()[0]
       if not predictions.has_key(routerHash) :
-         println("recording without a prediction, ignoring")
+         print("recording without a prediction, ignoring")
          continue
       router = predictions[routerHash]
       router.observe(match.groups()[1])
