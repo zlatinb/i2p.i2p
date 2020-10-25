@@ -1361,6 +1361,8 @@ public class ProfileOrganizer {
                 continue;
             if (_us.equals(peer))
                 continue;
+            if (peers.get(peer).predictState() != PeerAttempt.SUCCESS)
+                continue;
             int subTier = getSubTier(peer, randomKey);
             if ((subTier & subTierMode.mask) != subTierMode.val)
                 continue;
