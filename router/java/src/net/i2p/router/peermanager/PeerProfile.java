@@ -38,6 +38,7 @@ public class PeerProfile {
 
     // mc predictor
     private final MCProfile _mcProfile = new MCProfile(3,100); // TODO: make configurable
+    private final PowerEstimator _powerEstimator = new PowerEstimator(100, 10000);
 
     // general peer stats
     private long _firstHeardAbout;
@@ -657,13 +658,16 @@ public class PeerProfile {
 
     public PeerAttempt predictState() {
         PeerAttempt rv = _mcProfile.predict();
-        _log.debug(_peer + " predicting " + rv);
+        _log.debug(_peer + " MC predicting " + rv);
+        PeerAttempt power = _powerEstimator.predict();
+        _log.debug(_peer + " power predicting " + power);
         return rv;
     }
 
     public void recordState(PeerAttempt state) {
-        _log.debug(_peer + " recording " + state);
+        _log.debug(_peer + " recording " + state + " MC profile " + _mcProfile + " power estimator " + _powerEstimator);
         _mcProfile.observe(state);
+        _powerEstimator.observe(state);
     }
 
     @Override
