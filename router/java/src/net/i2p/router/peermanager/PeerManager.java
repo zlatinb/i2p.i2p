@@ -210,7 +210,7 @@ class PeerManager {
     private class ProfileLoader implements Runnable {
         public void run() {
             loadProfiles();
-            new Reorg();
+            // new Reorg();
         }
     }
 
