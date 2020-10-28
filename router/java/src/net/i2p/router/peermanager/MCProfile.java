@@ -25,6 +25,8 @@ class MCProfile {
 
     private Transition[] fromS, fromR, fromF;
 
+    private String toString;
+
     MCProfile(int minHistory, int maxHistory) {
         this.minHistory = minHistory;
         this.maxHistory = maxHistory;
@@ -152,6 +154,9 @@ class MCProfile {
             ffd = ff * 1.0 / countF;
         }
 
+        toString = String.format("SS:%.2f SR:%.2f SF:%.2f RS:%.2f RR:%.2f RD:%.2f FS:%.2f FR:%.2f FF:%.2f",
+            ssd,srd,sfd,rsd,rrd,rfd,fsd,frd,ffd);
+
         // update transition tables
         fromS[0] = new Transition(PeerAttempt.SUCCESS, ssd);
         fromS[1] = new Transition(PeerAttempt.REJECT, srd);
@@ -182,6 +187,10 @@ class MCProfile {
         case FAILED: outgoingTransitions = fromF; break;
         }
         
+    }
+
+    public String toString() {
+        return toString;
     }
 
     private static class Transition implements Comparable<Transition>{
